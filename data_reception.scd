@@ -4,9 +4,6 @@ s.boot;
 // create the GUI for sounds:
 NdefMixer.new( s );
 
-// view and analyse the incoming data:
-c = SignalCharacterics.new( 1000 );
-c.makeGui;
 
 // receive the OSC data:
 (
@@ -14,6 +11,12 @@ OSCdef( \minibeePost, { |msg|
 	msg.postln;
 }, "/minbee/data" );
 );
+
+
+// view and analyse the incoming data:
+c = SignalCharacterics.new( 1000 );
+c.makeGui;
+
 (
 OSCdef( \minibeeSignal, { |msg|
 	c.addValue( msg[2] ); // first data point - our analog sensor data: range will be between 0 and 1
@@ -42,7 +45,16 @@ Ndef( \percussiveSineOsc ).addSpec( \dur, [ 0.05, 1, \exponential ] );
 Ndef( \percussiveSineOsc ).addSpec( \trig, [ 0, 1, \linear, 1 ] );
 
 Ndef( \percussiveSineOsc ).play;
-Ndef( \percussiveSineOsc ).set( \trig, 1 );
+Ndef( \percussiveSineOsc ).set( \trig, 1 ); // testing
+
+(
+OSCdef( \minibeeSoundTrigger, { |msg|
+	if ( msg[2] > 0.5 ){ // threshold trigger
+		Ndef( \sineOsc ).setUni( \trig, 1 );
+	};
+}, "/minbee/data" );
+);
+
 
 // read in a soundfile:
 b = Buffer.read( s, "/home/nescivi/git/steim/steim_vanboeijen/supercollider/samples/ritme1/HAT CLOSED SAMPLE.wav" );
@@ -55,3 +67,11 @@ Ndef( \fileplayer ).addSpec( \loop, [ 0, 1, \linear, 1 ] );
 Ndef( \fileplayer ).addSpec( \trig, [ 0, 1, \linear, 1 ] );
 Ndef( \fileplayer ).play;
 Ndef( \fileplayer ).set( \trig, 1 );
+
+(
+OSCdef( \minibeeSoundTrigger, { |msg|
+	if ( msg[2] > 0.5 ){ // threshold trigger
+		Ndef( \fileplayer ).setUni( \trig, 1 );
+	};
+}, "/minbee/data" );
+);
