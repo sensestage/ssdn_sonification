@@ -4,6 +4,9 @@
 // select configuration: pydonconfig.xml
 // select serial port
 
+// maybe: change port to send data to:
+NetAddr.langPort; // -> outputs 57120, or 57121...
+
 n = NetAddr.new( "127.0.0.1", 57600 ); // address of pydongui
 
 // set up a listener for the info message from pydongui
@@ -32,3 +35,4 @@ n.sendMsg( "/minihive/configuration/save", "myconfiguration.xml" );
 
 // now stop the pydon program ([stop] button) and select this configuration file
 // pydongui will remember this setting for the next time you start up
+
