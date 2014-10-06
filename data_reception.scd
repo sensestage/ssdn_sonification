@@ -22,9 +22,11 @@ OSCdef( \minibeeSignal, { |msg|
 
 
 
+// definition of the sound:
 Ndef( \sineOsc, { SinOsc.ar( \freq.kr( 200 ), 0, \amp.kr(0.1) ); } );
-Ndef( \sineOsc ).addSpec( \freq, [ 400, 5000, \exponential ] );
-Ndef( \sineOsc ).addSpec( \amp, [ 0.05, 1, \exponential ] );
+Ndef( \sineOsc ).addSpec( \freq, [ 400, 5000, \exponential ] ); // sets the range for the frequency
+Ndef( \sineOsc ).addSpec( \amp, [ 0.05, 1, \exponential ] );    // sets the range for the amplitude
+Ndef( \sineOsc ).play; // start playback
 
 (
 OSCdef( \minibeeSound, { |msg|
@@ -38,6 +40,7 @@ Ndef( \percussiveSineOsc ).addSpec( \freq, [ 400, 5000, \exponential ] );
 Ndef( \percussiveSineOsc ).addSpec( \amp, [ 0.05, 1, \exponential ] );
 Ndef( \percussiveSineOsc ).addSpec( \dur, [ 0.05, 1, \exponential ] );
 Ndef( \percussiveSineOsc ).addSpec( \trig, [ 0, 1, \linear, 1 ] );
+
 Ndef( \percussiveSineOsc ).play;
 Ndef( \percussiveSineOsc ).set( \trig, 1 );
 
