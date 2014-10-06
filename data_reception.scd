@@ -1,3 +1,5 @@
+"pydongui.py".runInTerminal;
+
 // boot the audio engine - if it is not already running:
 s.boot;
 
@@ -9,7 +11,7 @@ NdefMixer.new( s );
 (
 OSCdef( \minibeePost, { |msg|
 	msg.postln;
-}, "/minbee/data" );
+}, "/minibee/data" );
 );
 
 
@@ -20,7 +22,7 @@ c.makeGui;
 (
 OSCdef( \minibeeSignal, { |msg|
 	c.addValue( msg[2] ); // first data point - our analog sensor data: range will be between 0 and 1
-}, "/minbee/data" );
+}, "/minibee/data" );
 );
 
 
@@ -34,7 +36,7 @@ Ndef( \sineOsc ).play; // start playback
 (
 OSCdef( \minibeeSound, { |msg|
 	Ndef( \sineOsc ).setUni( \freq, msg[2] ); // map from 0 to 1, to the range of the frequency
-}, "/minbee/data" );
+}, "/minibee/data" );
 );
 
 
@@ -52,7 +54,7 @@ OSCdef( \minibeeSoundTrigger, { |msg|
 	if ( msg[2] > 0.5 ){ // threshold trigger
 		Ndef( \sineOsc ).setUni( \trig, 1 );
 	};
-}, "/minbee/data" );
+}, "/minibee/data" );
 );
 
 
@@ -73,5 +75,5 @@ OSCdef( \minibeeSoundTrigger, { |msg|
 	if ( msg[2] > 0.5 ){ // threshold trigger
 		Ndef( \fileplayer ).setUni( \trig, 1 );
 	};
-}, "/minbee/data" );
+}, "/minibee/data" );
 );
