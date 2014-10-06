@@ -10,3 +10,8 @@ OSCdef( \minibeePost, { |msg|
 	msg.postln;
 }, "/minibee/data" );
 );
+
+ // save the current configuration to a file
+n.sendMsg( "/minihive/configuration/save", "myconfiguration.xml" );
+
+// now stop the pydon program ([stop] button) and go to this configuration file

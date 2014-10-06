@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<xml>
+  <hive name="myprojectname">
+    <minibee caps="7" configuration="2" id="1" libversion="6" name="" revision="D" serial="0013A20040BB364E">
+      <!--the id given inside the minibee tag is the unique id or number of the minibee-->
+      <!--the configutaion inside the minibee tag is the unique id of the configuration that is used. It has to match one of the configuration id's that are defined in this file.-->
+      <custom/>
+    </minibee>
+
+    <configuration id="1" message_interval="50" name="accelero" redundancy="3" rssi="False" samples_per_message="1">
+      <pin config="TWIClock" id="A5" name="None"/>
+      <pin config="TWIData" id="A4" name="None"/>
+      <twi device="ADXL345" id="1" name="accelero"/>
+    </configuration>
+
+    <configuration id="2" message_interval="50" name="etextile" redundancy="3" rssi="False" samples_per_message="1">
+      <pin config="DigitalIn" id="D3" name="digital3"/>
+      <pin config="AnalogIn10bit" id="A0" name="analog0"/>
+      <pin config="TWIClock" id="A5" name="None"/>
+      <pin config="TWIData" id="A4" name="None"/>
+      <twi device="ADXL345" id="1" name="accelero"/>
+    </configuration>
+
+  </hive>
+</xml>
