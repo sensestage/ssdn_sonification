@@ -32,36 +32,6 @@ Ndef( \noAsami ).play;
 );
 
 
-
-(
-/// load directory of sound files:
-~yesAsamiPaths = ( "".resolveRelative +/+ "asami/yes*.wav" ).pathMatch;
-~yesAsamiBuffers = ~yesAsamiPaths.collect{ |it| Buffer.read( s, it ) };
-Ndef( \yesAsami, { PlayBuf.ar( 1, \bufnum.kr(0), \rate.kr(1), \trig.tr(1), 0, \loop.kr(0) ) * \amp.kr(0.1); } );
-Ndef( \yesAsami ).addSpec( \amp, [ 0.05, 1, \exponential ] );
-Ndef( \yesAsami ).addSpec( \bufnum, [ 0, 10, \linear, 1 ] );
-Ndef( \yesAsami ).addSpec( \loop, [ 0, 1, \linear, 1 ] );
-Ndef( \yesAsami ).addSpec( \trig, [ 0, 1, \linear, 1 ] );
-Ndef( \yesAsami ).set( \bufnum, ~yesAsamiBuffers[0].bufnum );
-Ndef( \yesAsami ).set( \amp, 1 );
-Ndef( \yesAsami ).play;
-);
-
-(
-/// load directory of sound files:
-~noAsamiPaths = ( "".resolveRelative +/+ "asami/no*.wav" ).pathMatch;
-~noAsamiBuffers = ~noAsamiPaths.collect{ |it| Buffer.read( s, it ) };
-Ndef( \noAsami, { PlayBuf.ar( 1, \bufnum.kr(0), \rate.kr(1), \trig.tr(1), 0, \loop.kr(0) ) * \amp.kr(0.1); } );
-Ndef( \noAsami ).addSpec( \amp, [ 0.05, 1, \exponential ] );
-Ndef( \noAsami ).addSpec( \bufnum, [ 0, 10, \linear, 1 ] );
-Ndef( \noAsami ).addSpec( \loop, [ 0, 1, \linear, 1 ] );
-Ndef( \noAsami ).addSpec( \trig, [ 0, 1, \linear, 1 ] );
-Ndef( \noAsami ).set( \bufnum, ~noAsamiBuffers[0].bufnum );
-Ndef( \noAsami ).set( \amp, 1 );
-Ndef( \noAsami ).play;
-);
-
-
 (
 /// load directory of sound files:
 ~yesMinPaths = ( "".resolveRelative +/+ "min/yes*.wav" ).pathMatch;
@@ -91,6 +61,7 @@ Ndef( \noMin ).play;
 );
 
 
+// create streams of the different sound files - this picks one at random, but never the same twice in a row
 ~yesAsamiSequence = Pxrand( ~yesAsamiBuffers, inf ).asStream;
 ~noAsamiSequence = Pxrand( ~noAsamiBuffers, inf ).asStream;
 ~yesMinSequence = Pxrand( ~yesMinBuffers, inf ).asStream;
