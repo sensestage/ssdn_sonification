@@ -14,6 +14,8 @@ OSCdef( \minibeePost, { |msg|
 }, "/minibee/data" );
 );
 
+// stop posting:
+OSCdef( \minibeePost ).free;
 
 // view and analyse the incoming data:
 c = SignalCharacterics.new( 1000 );
@@ -21,11 +23,9 @@ c.makeGui;
 
 (
 OSCdef( \minibeeSignal, { |msg|
-	c.addValue( msg[2] ); // first data point - our analog sensor data: range will be between 0 and 1
+	c.addValue( msg[3] ); // first data point - our analog sensor data: range will be between 0 and 1
 }, "/minibee/data" );
 );
-
-
 
 // definition of the sound:
 Ndef( \sineOsc, { SinOsc.ar( \freq.kr( 200 ), 0, \amp.kr(0.1) ); } );
@@ -35,27 +35,37 @@ Ndef( \sineOsc ).play; // start playback
 
 (
 OSCdef( \minibeeSound, { |msg|
-	Ndef( \sineOsc ).setUni( \freq, msg[2] ); // map from 0 to 1, to the range of the frequency
+	Ndef( \sineOsc ).setUni( \freq, msg[3] ); // map from 0 to 1, to the range of the frequency
 }, "/minibee/data" );
 );
 
 
-Ndef( \percussiveSineOsc, { SinOsc.ar( \freq.kr( 600 ), 0, \amp.kr(0.1) ) * EnvGen.kr( Env.perc, \trig.tr(1), timeScale: \dur.kr( 0.2 ) ); } );
+Ndef( \sineOsc ).stop;
+OSCdef( \minibeeSound ).free;
+
+Ndef( \percussiveSineOsc, { SinOsc.ar( \freq.kr( 600 ), 0, \amp.kr(0.1) ) * EnvGen.kr( Env.perc, \gate.kr(1), timeScale: \dur.kr( 0.2 ) ); } );
 Ndef( \percussiveSineOsc ).addSpec( \freq, [ 400, 5000, \exponential ] );
 Ndef( \percussiveSineOsc ).addSpec( \amp, [ 0.05, 1, \exponential ] );
 Ndef( \percussiveSineOsc ).addSpec( \dur, [ 0.05, 1, \exponential ] );
-Ndef( \percussiveSineOsc ).addSpec( \trig, [ 0, 1, \linear, 1 ] );
+Ndef( \percussiveSineOsc ).addSpec( \gate, [ 0, 1, \linear, 1 ] );
 
 Ndef( \percussiveSineOsc ).play;
-Ndef( \percussiveSineOsc ).set( \trig, 1 ); // testing
+Ndef( \percussiveSineOsc ).set( \amp, 1 ); // testing
+Ndef( \percussiveSineOsc ).set( \gate, 0 ); // testing
+Ndef( \percussiveSineOsc ).set( \gate, 1 ); // testing
 
 (
 OSCdef( \minibeeSoundTrigger, { |msg|
-	if ( msg[2] > 0.5 ){ // threshold trigger
-		Ndef( \sineOsc ).setUni( \trig, 1 );
+	if ( msg[3] > 0.8 ){ // threshold trigger
+		msg[3].postln;
+		Ndef( \percussiveSineOsc ).set( \gate, 1 );
+	}{
+		Ndef( \percussiveSineOsc ).set( \gate, 0 );
 	};
 }, "/minibee/data" );
 );
+// stop the interaction
+OSCdef( \minibeeSoundTrigger ).free;
 
 
 // read in a soundfile:
@@ -68,12 +78,33 @@ Ndef( \fileplayer ).addSpec( \bufnum, [ 0, 10, \linear, 1 ] );
 Ndef( \fileplayer ).addSpec( \loop, [ 0, 1, \linear, 1 ] );
 Ndef( \fileplayer ).addSpec( \trig, [ 0, 1, \linear, 1 ] );
 Ndef( \fileplayer ).play;
+Ndef( \fileplayer ).set( \amp, 5 );
+
 Ndef( \fileplayer ).set( \trig, 1 );
 
 (
 OSCdef( \minibeeSoundTrigger, { |msg|
-	if ( msg[2] > 0.5 ){ // threshold trigger
-		Ndef( \fileplayer ).setUni( \trig, 1 );
+	if ( msg[3] > 0.8 ){ // threshold trigger
+		Ndef( \fileplayer ).set( \trig, 1 );
 	};
 }, "/minibee/data" );
 );
+
+// stop the interaction
+OSCdef( \minibeeSoundTrigger ).free;
+
+(
+OSCdef( \minibeeSoundLoop, { |msg|
+	if ( msg[3] > 0.8 ){ // looping
+		Ndef( \fileplayer ).set( \loop, 1 );
+	}{
+		Ndef( \fileplayer ).set( \loop, 0 );
+	};
+}, "/minibee/data" );
+);
+
+// stop the interaction
+OSCdef( \minibeeSoundLoop ).free;
+
+// free all interaction
+OSCdef.freeAll;
