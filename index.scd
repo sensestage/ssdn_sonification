@@ -35,4 +35,3 @@
 // extended example of mapping incoming data to sounds:
 // more_detailed_sound_example.scd
 ( "".resolveRelative +/+ "more_detailed_sound_example.scd" ).openDocument;
-
