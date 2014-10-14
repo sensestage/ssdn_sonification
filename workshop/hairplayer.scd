@@ -1,10 +1,11 @@
-"pydongui.py".runInTerminal;
+// start pydongui:
+("cd" + "".resolveRelative ++ "; pydongui.py").runInTerminal;
 
 // boot the audio engine:
 s.boot;
 
-/// load directory of sound files:
-~soundfilePaths = ( "".resolveRelative +/+ "*.wav" ).pathMatch.sort;
+/// load directory "hair" of sound files - folder should be relative to this file
+~soundfilePaths = ( "".resolveRelative +/+ "hair/*.wav" ).pathMatch.sort;
 
 // load the file paths into buffers on the server
 ~soundBuffers = ~soundfilePaths.collect{ |it| Buffer.read( s, it ) };

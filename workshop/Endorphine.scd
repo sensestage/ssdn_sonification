@@ -7,7 +7,8 @@ In the first garment, when someone hugs the wearer the volume decreases to 0.
 In the second garment, when someone strokes the back of the wearer for a period of time the volume decreases to 0.
 
 */
-"pydongui.py".runInTerminal;
+// start pydongui:
+("cd" + "".resolveRelative ++ "; pydongui.py").runInTerminal;
 
 // Start the synthesis server
 s.boot;
@@ -15,8 +16,9 @@ s.boot;
 // Run this code to choose your sample file
 // Dialog.openPanel({|file| ~samplebuf = Buffer.read(s, file)}); // make sure the sample is stereo!
 
-~samplebuf1 = Buffer.read( s, "".resolveRelative +/+ "music_4.wav" );
-~samplebuf2 = Buffer.read( s, "".resolveRelative +/+ "grasgeluid.wav" );
+// this assumes that the sound files are in a folder "endorphine" relative to this file!
+~samplebuf1 = Buffer.read( s, "".resolveRelative +/+ "endorphine/music_4.wav" );
+~samplebuf2 = Buffer.read( s, "".resolveRelative +/+ "endorphine/grasgeluid.wav" );
 
 (
 // Configure the sample playback engine
@@ -48,13 +50,9 @@ Ndef( \grassampler ).play;
 Ndef( \grassampler ).set(\trig, 1);
 )
 
-Ndef( \sampler ).stop;
-
-s.meter;
 
 /// elk punt druk: geluid uit
 /// wrijft : over meerdere punten druk, dan grasgeluid
-
 
 Ndef( \sampler ).addSpec( \amp, [0.05, 0.5, \exponential] ); // range van de amplitude: geen druk 0.5, veel druk 0.05
 
@@ -85,6 +83,9 @@ OSCdef(\hug, {|msg|
 );
 
 
+
+
+/// not working yet:
 
 // Stroking activity controls volume
 // Standard dev of the past 100 datapoints (about 5 seconds).. larger stdv = lower volume

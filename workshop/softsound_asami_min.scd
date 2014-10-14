@@ -3,9 +3,12 @@ s.boot;
 
 NdefMixer.new(s);
 
+// we assume all files are in a folder relative to this file - and the folder should be named: SOFT_sound_Asami.
+// subfolders are: asami and min.
+
 (
 /// load directory of sound files:
-~yesAsamiPaths = ( "".resolveRelative +/+ "asami/yes*.wav" ).pathMatch;
+~yesAsamiPaths = ( "".resolveRelative +/+ "SOFT_sound_Asami/asami/yes*.wav" ).pathMatch;
 ~yesAsamiBuffers = ~yesAsamiPaths.collect{ |it| Buffer.read( s, it ) };
 Ndef( \yesAsami, { PlayBuf.ar( 1, \bufnum.kr(0), \rate.kr(1), \trig.tr(1), 0, \loop.kr(0) ) * \amp.kr(0.1); } );
 Ndef( \yesAsami ).addSpec( \amp, [ 0.05, 1, \exponential ] );
@@ -19,7 +22,7 @@ Ndef( \yesAsami ).play;
 
 (
 /// load directory of sound files:
-~noAsamiPaths = ( "".resolveRelative +/+ "asami/no*.wav" ).pathMatch;
+~noAsamiPaths = ( "".resolveRelative +/+ "SOFT_sound_Asami/asami/no*.wav" ).pathMatch;
 ~noAsamiBuffers = ~noAsamiPaths.collect{ |it| Buffer.read( s, it ) };
 Ndef( \noAsami, { PlayBuf.ar( 1, \bufnum.kr(0), \rate.kr(1), \trig.tr(1), 0, \loop.kr(0) ) * \amp.kr(0.1); } );
 Ndef( \noAsami ).addSpec( \amp, [ 0.05, 1, \exponential ] );
@@ -34,7 +37,7 @@ Ndef( \noAsami ).play;
 
 (
 /// load directory of sound files:
-~yesMinPaths = ( "".resolveRelative +/+ "min/yes*.wav" ).pathMatch;
+~yesMinPaths = ( "".resolveRelative +/+ "SOFT_sound_Asami/min/yes*.wav" ).pathMatch;
 ~yesMinBuffers = ~yesMinPaths.collect{ |it| Buffer.read( s, it ) };
 Ndef( \yesMin, { PlayBuf.ar( 1, \bufnum.kr(0), \rate.kr(1), \trig.tr(1), 0, \loop.kr(0) ) * \amp.kr(0.1); } );
 Ndef( \yesMin ).addSpec( \amp, [ 0.05, 1, \exponential ] );
@@ -48,7 +51,7 @@ Ndef( \yesMin ).play;
 
 (
 /// load directory of sound files:
-~noMinPaths = ( "".resolveRelative +/+ "min/no*.wav" ).pathMatch;
+~noMinPaths = ( "".resolveRelative +/+ "SOFT_sound_Asami/min/no*.wav" ).pathMatch;
 ~noMinBuffers = ~noMinPaths.collect{ |it| Buffer.read( s, it ) };
 Ndef( \noMin, { PlayBuf.ar( 1, \bufnum.kr(0), \rate.kr(1), \trig.tr(1), 0, \loop.kr(0) ) * \amp.kr(0.1); } );
 Ndef( \noMin ).addSpec( \amp, [ 0.05, 1, \exponential ] );
@@ -68,10 +71,8 @@ Ndef( \noMin ).play;
 ~noMinSequence = Pxrand( ~noMinBuffers, inf ).asStream;
 
 
-
-
 //Ndef( \vocal, { RLPF.ar( LFPulse.ar( \lfrq.kr(20) * LFNoise2.kr(200,0.05,1), 0, \width.kr(0.2) ), \freq.kr(2000)*[1,5/4,3/2] * LFNoise2.kr(200, 0.05, 1 ), \rq.kr(0.1) ).sum * \amp.kr(0.1) * 0.2 / 3 } );
-
+// kind of vocal melodic sounds:
 (
 Ndef( \vocal1, {
 	RLPF.ar(
@@ -96,14 +97,7 @@ Ndef( \vocal2 ).play;
 
 
 
-Ndef( \vocal ).set( \bwfreq, 1800, \freq, 2000  );
-Ndef( \vocal ).set( \bwfreq, 600, \freq, 800  );
-
-Ndef( \vocal ).set( \gate, 1 );
-Ndef( \vocal ).set( \gate, 0 );
-
-
-
+// test all sound files:
 Ndef( \yesAsami ).set( \trig, 1, \bufnum, ~yesAsamiSequence.next.postln.bufnum );
 Ndef( \noAsami ).set( \trig, 1, \bufnum, ~noAsamiSequence.next.postln.bufnum );
 Ndef( \yesMin ).set( \trig, 1, \bufnum, ~yesMinSequence.next.postln.bufnum );

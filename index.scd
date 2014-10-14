@@ -35,3 +35,8 @@
 // extended example of mapping incoming data to sounds:
 // more_detailed_sound_example.scd
 ( "".resolveRelative +/+ "more_detailed_sound_example.scd" ).openDocument;
+
+// The folder workshop contains the projects that were made in the workshop "Technical Intimacy - Bodies as Instruments" on Oct 6 and 7, 2014
+
+// The folder pressurecooker contains the files that were made during the E-Textile Pressure Cooker on Oct 10, 11, and 12, 2014
+
