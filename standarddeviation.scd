@@ -10,3 +10,13 @@ OSCdef( \mean, { |msg| msg.postln; }, "/mean" );
 
 
 a.set( 0.4);
+
+// language side:
+
+c = SignalCharacteristics.new( 200 );
+
+c.addValue( 0.3 );
+c.stdDev;
+
+c.addValue( 0.1 );
+c.stdDev;

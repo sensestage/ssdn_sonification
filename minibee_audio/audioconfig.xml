@@ -1,0 +1,12 @@
+<xml><hive name="polytope_audio">
+
+
+  <configuration id="1" name="xpauled" message_interval="100" samples_per_message="1" redundancy="2">
+    <customconf>
+	<data id="0" size="1" offset="0" scale="1" name="mic"/>
+	<data id="1" size="1" offset="0" scale="255" name="amp"/>
+    </customconf>
+  </configuration>
+
+
+</hive></xml>
